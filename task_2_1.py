@@ -19,7 +19,7 @@ r = []
 with open("lineq", 'r', encoding="utf-8") as f:
     n = int(f.readline())
     for i in range(n):
-        line = list(map(int, f.readline().strip().split()))
+        line = list(map(float, f.readline().strip().split()))
         m.append([])
         for j in range(n):
             m[i].append(line[j])
