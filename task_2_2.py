@@ -1,10 +1,13 @@
-def iterate(res):
+from linalgfuncs import get_matrix, det, reduce_matrix
+
+
+def iterate(matrix, res):
     new = []
     for i in range(len(res)):
         x_i = 0
-        for j in range(len(new_system[i + 1]) - 1):
-            x_i += new_system[i + 1][j] * res[j]
-        x_i += new_system[i + 1][-1]
+        for j in range(len(matrix[i]) - 1):
+            x_i += matrix[i][j] * res[j]
+        x_i += matrix[i][-1]
         new.append(x_i)
     return new
 
@@ -16,52 +19,37 @@ def accurate(res_0, res_1):
     return True
 
 
-m = []
-r = []
-with open("lineq", 'r', encoding="utf-8") as f:
-    n = int(f.readline())
-    for i in range(n):
-        line = list(map(float, f.readline().strip().split()))
-        m.append([])
-        for j in range(n):
-            m[i].append(line[j])
-        r.append(line[-1])
+m, r = get_matrix()
+if det(m) == 0:
+    print("Уравнения линейно зависимы")
+    exit(0)
+m, r = reduce_matrix(m, r)
 
-
-new_system = {}
+m_0 = []
 r_0 = []
 for i in range(len(m)):
-    max_j = 0
-    for j in range(1, len(m)):
-        if m[i][j] > m[i][max_j]:
-            max_j = j
-    if max_j + 1 in new_system.keys():
-        print("итерационный процесс не сходится")
-        exit(0)
-    new_system[max_j + 1] = []
+    m_0.append([])
     for j in range(len(m)):
-        if j == max_j:
-            new_system[max_j + 1].append(0)
+        if i == j:
             continue
-        new_system[max_j + 1].append(-m[i][j] / m[i][max_j])
-    new_system[max_j + 1].append(r[i] / m[i][max_j])
-    r_0.append(r[i] / m[i][max_j])
+        m_0[i].append(-m[i][j] / m[i][i])
+    m_0[i].append(r[i] / m[i][i])
+    r_0.append(1)
 
 
-r_1 = iterate(r_0)
+r_1 = iterate(m_0, r_0)
 while not accurate(r_0, r_1):
-    r_0, r_1 = r_1.copy(), iterate(r_1)
+    r_0, r_1 = r_1.copy(), iterate(m_0, r_1)
 
 print("me :)")
 for i in range(len(r)):
     print(f"x{i + 1} = {r_1[i]};")
 
 
-from scipy import linalg
-import numpy as np
+from numpy import linalg, array
 
-A = np.array(m)
-B = np.array(r).reshape(len(r), 1)
+A = array(m)
+B = array(r).reshape(len(r), 1)
 
 X = linalg.solve(A, B)
 

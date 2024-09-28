@@ -22,12 +22,10 @@ def exp(x: float) -> float:
     s_right = 1
     current = right_part
     n = 1
-    change = right_part / (n + 1)
     while abs(current) >= epsilon:
         s_right += current
-        current *= change
+        current *= right_part / (n + 1)
         n += 1
-        change = right_part / (n + 1)
     return s_left * s_right
 
 
@@ -38,12 +36,10 @@ def arcctg(x: float) -> float:
     s = 0
     current = optimized_x
     n = 1
-    change = ((-1) * optimized_x * optimized_x * (2 * n - 1)) / (2 * n + 1)
     while abs(current) >= epsilon:
         s += current
-        current *= change
+        current *= ((-1) * optimized_x * optimized_x * (2 * n - 1)) / (2 * n + 1)
         n += 1
-        change = ((-1) * optimized_x * optimized_x * (2 * n - 1)) / (2 * n + 1)
     if x < -1:
         return s + pi
     elif x > 1:
@@ -58,12 +54,10 @@ def sin(x: float) -> float:
     s = 0
     current = optimized_x
     n = 0
-    change = ((-1) * optimized_x * optimized_x) / ((2 * n + 2) * (2 * n + 3))
     while abs(current) >= epsilon:
         s += current
-        current *= change
+        current *= ((-1) * optimized_x * optimized_x) / ((2 * n + 2) * (2 * n + 3))
         n += 1
-        change = ((-1) * optimized_x * optimized_x) / ((2 * n + 2) * (2 * n + 3))
     s = s if x < pi else -s
     return s
 
