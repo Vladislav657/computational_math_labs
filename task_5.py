@@ -12,6 +12,7 @@ W22 = np.array([1, 1, 1, 1])
 
 XX2 = [np.array([np.random.sample(), np.random.sample(), 1]).T for _ in range(100)]
 
+
 def forwardNN1(x):
     z1 = W11.dot(x)
     y1 = np.heaviside(z1, 0)
