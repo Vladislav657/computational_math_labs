@@ -18,17 +18,17 @@ def forwardNN(x):
 
 
 plt.grid()
-d, c = None, None
+c, d = None, None
 for X in XX:
     if forwardNN(X):
-        d = plt.scatter(X[0], X[1], color='red')
-    else:
         c = plt.scatter(X[0], X[1], color='green')
+    else:
+        d = plt.scatter(X[0], X[1], color='red')
 # plt.plot([0, 0.5], [0.5, 1], color='blue')
 plt.plot([0.5, 1], [1, 0.5], color='blue')
 # plt.plot([0.5, 1], [0, 0.5], color='blue')
 plt.plot([0, 0.5], [0.5, 0], color='blue')
 plt.plot([0, 1], [1, 0], color='blue')
 # plt.plot([0, 1], [0, 1], color='blue')
-plt.legend((d, c), ['собака', 'кошка'])
+plt.legend((c, d), ['кошка', 'собака'])
 plt.show()
