@@ -32,19 +32,16 @@ def df_da0(x, y):
     return 2 * (N * x + sum_x * y - sum_y)
 
 
-def df_da1(x, y):
+def df_da1(x, y): # производная
     return 2 * (sum_x * x + sum_x2 * y - sum_xy)
 
 
-a0 = a1 = 5
-lmd = 1e-8
-epsilon = 1e-8
-step_a0 = lmd * df_da0(a0, a1)
-step_a1 = lmd * df_da1(a0, a1)
-while sqrt((a0 - step_a0 - a0) ** 2 + (a1 - step_a1 - a1) ** 2) >= epsilon:
-    a0, a1 = a0 - step_a0, a1 - step_a1
-    step_a0 = lmd * df_da0(a0, a1)
-    step_a1 = lmd * df_da1(a0, a1)
+a0 = a1 = 5 # начальные значения переменных
+lmd = 1e-8 # шаг обучения
+epsilon = 1e-8 # точность
+while sqrt((a0 - lmd * df_da0(a0, a1) - a0) ** 2 + (a1 - lmd * df_da1(a0, a1) - a1) ** 2) >= epsilon:
+    a0 = a0 - lmd * df_da0(a0, a1) # изменение первой переменной
+    a1 = a1 - lmd * df_da1(a0, a1) # изменение второй переменной
 
 X = arange(710, 770, 5)
 plt.grid()
